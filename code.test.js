@@ -11,3 +11,9 @@ test('should not throw if the input is indefined', t => {
 
   t.is(result, undefined)
 })
+
+test('should not throw if the input does not have the content', t => {
+  const result = doPost({})
+
+  t.is(result, undefined)
+})

@@ -34,7 +34,7 @@ var TIMESTAMP_COL = 1;  // column index of the timestamp column
 try { module.exports = doPost } catch(err) {}
 
 function doPost(e) {
-  if (!e) {
+  if (!e || !e.postData || !e.postData.contents) {
     return
   }
 
