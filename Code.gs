@@ -34,10 +34,6 @@ var TIMESTAMP_COL = 1;  // column index of the timestamp column
 try { module.exports = doPost } catch(err) {}
 
 function doPost(e) {
-  if (!e || !e.postData || !e.postData.contents) {
-    return
-  }
-
   var cloudData = JSON.parse(e.postData.contents); // this is a json object containing all info coming from IoT Cloud
   //var webhook_id = cloudData.webhook_id; // really not using these three
   //var device_id = cloudData.device_id;
@@ -57,7 +53,9 @@ function doPost(e) {
   // read timestamp of incoming message
   var timestamp = values[0].updated_at;          // format: yyyy-MM-ddTHH:mm:ss.mmmZ
   var date = new Date(Date.parse(timestamp)); 
-  
+
+  return 'OK'
+
   /*
   This if statement is due to the fact that duplicate messages arrive from the cloud!
   If that occurs, the timestamp is not read correctly and date variable gets compromised.
