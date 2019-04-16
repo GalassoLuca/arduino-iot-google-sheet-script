@@ -1,0 +1,30 @@
+{
+  "name": "arduino-iot-google-sheet-script",
+  "version": "1.0.0",
+  "description": "Google sheet script in order to receive data from Arduino cloud",
+  "main": "index.js",
+  "scripts": {
+    "test": "ava"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GalassoLuca/arduino-iot-google-sheet-script.git"
+  },
+  "keywords": [
+    "google",
+    "script",
+    "sheet",
+    "javascript",
+    "arduino",
+    "tdd"
+  ],
+  "author": "Luca Galasso",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/GalassoLuca/arduino-iot-google-sheet-script/issues"
+  },
+  "homepage": "https://github.com/GalassoLuca/arduino-iot-google-sheet-script#readme",
+  "dependencies": {
+    "ava": "^1.4.1"
+  }
+}
