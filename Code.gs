@@ -31,7 +31,13 @@ var MAX_ROWS = 1440;     // max number of data rows to display
 var HEADER_ROW = 1;     // row index of header
 var TIMESTAMP_COL = 1;  // column index of the timestamp column
 
-function doPost(e) {  
+try { module.exports = doPost } catch(err) {}
+
+function doPost(e) {
+  if (!e) {
+    return
+  }
+
   var cloudData = JSON.parse(e.postData.contents); // this is a json object containing all info coming from IoT Cloud
   //var webhook_id = cloudData.webhook_id; // really not using these three
   //var device_id = cloudData.device_id;

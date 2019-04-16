@@ -4,8 +4,10 @@ global.SpreadsheetApp = {
   getActiveSheet: () => ({ getSheetByName: () => ('RawData') })
 }
 
-const Code = require('./Code.gs')
+const doPost = require('./Code.gs')
 
-test('unicorns are truthy', t => {
-  t.truthy('unicorn'); // Assertion
-});
+test('should not throw if the input is indefined', t => {
+  const result = doPost()
+
+  t.is(result, undefined)
+})
