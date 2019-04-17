@@ -5,6 +5,15 @@ const contentsWithoutValues = {
   thing_id: "ffc68fbc-4f4e-4bb2-9c33-4f517a2fdb89"
 }
 
+const contentsWithCorruptedValues = {
+  ...contentsWithoutValues,
+  values: [
+    {
+      updated_at: "I have been corrupted"
+    }
+  ]
+}
+
 const contentsWithSingleValue = {
   ...contentsWithoutValues,
   values: [
@@ -29,5 +38,6 @@ function contentsToWebHookObject (contents) {
 
 module.exports = {
   objectWithoutValues: contentsToWebHookObject(contentsWithoutValues),
-  objectWithSingleValue: contentsToWebHookObject(contentsWithSingleValue)
+  objectWithSingleValue: contentsToWebHookObject(contentsWithSingleValue),
+  objectWithCorruptedValues: contentsToWebHookObject(contentsWithCorruptedValues)
 }

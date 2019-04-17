@@ -54,15 +54,14 @@ function doPost(e) {
   var timestamp = values[0].updated_at;          // format: yyyy-MM-ddTHH:mm:ss.mmmZ
   var date = new Date(Date.parse(timestamp)); 
 
-  return 'OK'
-
   /*
   This if statement is due to the fact that duplicate messages arrive from the cloud!
   If that occurs, the timestamp is not read correctly and date variable gets compromised.
   Hence, execute the rest of the script if the year of the date is well defined and it is greater
   then 2018 (or any other year before)
   */
-  if (date.getYear() > 2018) {
+  if (date.getFullYear() > 2018) {
+    return 'OK'
   
     // discard all messages that arrive 'late'
     if (sheet.getRange(HEADER_ROW+1, 1).getValue() != '') { // for the first time app is run
@@ -134,6 +133,8 @@ function doPost(e) {
         } 
       }
     }  
-  
+
+  } else {
+    throw new Error('Compromised data (is it a duplicate?)')
   } // end if (date.getYear() > 2018)
 }
