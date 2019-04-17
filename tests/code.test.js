@@ -1,24 +1,7 @@
+require('./SpreadsheetApp')
+
 const test = require('ava')
 const fixtures = require('./fixtures')
-
-global.SpreadsheetApp = {
-  getActiveSheet: () => ({
-    getSheetByName: (sheetName) => ({
-      getRange: (start, end) => ({
-        getValue: () => { },
-        setValue: (value) => ({
-          setNumberFormat: (format) => {}
-        }),
-        setFontColor: (color) => { },
-        setFontSize: (size) => { },
-        setFontWeight: (weight) => { }
-      }),
-      getLastColumn: () => { },
-      getLastRow: () => { },
-      insertRowAfter: () => { }
-    })
-  })
-}
 
 const doPost = require('../Code.gs')
 
