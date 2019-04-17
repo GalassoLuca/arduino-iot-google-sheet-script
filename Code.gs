@@ -61,7 +61,6 @@ function doPost(e) {
   then 2018 (or any other year before)
   */
   if (date.getFullYear() > 2018) {
-    return 'OK'
   
     // discard all messages that arrive 'late'
     if (sheet.getRange(HEADER_ROW+1, 1).getValue() != '') { // for the first time app is run

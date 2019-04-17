@@ -2,7 +2,13 @@ const test = require('ava')
 const fixtures = require('./fixtures')
 
 global.SpreadsheetApp = {
-  getActiveSheet: () => ({ getSheetByName: () => ('RawData') })
+  getActiveSheet: () => ({
+    getSheetByName: (sheetName) => ({
+      getRange: (start, end) => ({
+        getValue: () => {}
+      })
+    })
+  })
 }
 
 const doPost = require('../Code.gs')
@@ -25,14 +31,20 @@ test('should throw if the input does not have values', async t => {
   t.is(error.message, 'Cannot read property \'length\' of undefined')
 })
 
-test('for duplicates messages the date is compromised and it should throw with a message', async t => {
-  const error = await t.throws(() => doPost(fixtures.objectWithCorruptedValues))
+test('should throw if the date of a value is compromised (due to duplicate message)', async t => {
+  const error = await t.throws(() => doPost(fixtures.objectWithCorruptedValue))
 
   t.is(error.message, 'Compromised data (is it a duplicate?)')
 })
 
-test('should return `OK` if the input has values', t => {
+test('should return undefined if the message is older than 5 seconds', t => {
+  const result = doPost(fixtures.objectWithOldValue)
+
+  t.is(result, undefined)
+})
+
+test.skip('TODO', t => {
   const result = doPost(fixtures.objectWithSingleValue)
 
-  t.is(result, 'OK')
+  t.is(result, undefined)
 })
