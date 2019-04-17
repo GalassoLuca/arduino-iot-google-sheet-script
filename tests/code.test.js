@@ -9,11 +9,23 @@ const getSheetByNameSpy = sinon.spy(FlatSpreasheetApp, 'getSheetByName')
 
 const doPost = require('../Code.gs')
 
-test('should have called getActiveSheet()', t => {
+test('should not call getActiveSheet() outside doPost() because it is instable if it is called in a parallel way', t => {
+  t.false(getActiveSheetSpy.called)
+})
+
+test('should not call getSheetByName() outside doPost() because it is instable if it is called in a parallel way', t => {
+  t.false(getSheetByNameSpy.called)
+})
+
+test('should call getActiveSheet() after calling doPost()', async t => {
+  const error = await t.throws(doPost)
+
   t.true(getActiveSheetSpy.called)
 })
 
-test('should have called getSheetByName()', t => {
+test('should call getSheetByName() after calling doPost()',async  t => {
+  const error = await t.throws(doPost)
+
   t.true(getSheetByNameSpy.called)
   t.is(getSheetByNameSpy.args[0][0], 'RawData')
 })
@@ -33,7 +45,7 @@ test('should throw if the input does not have the content', async t => {
 test('should throw if the input does not have values', async t => {
   const error = await t.throws(() => doPost(fixtures.objectWithoutValues))
 
-  t.is(error.message, 'Cannot read property \'length\' of undefined')
+  t.is(error.message, 'Cannot read property \'0\' of undefined')
 })
 
 test('should throw if the date of a value is compromised (due to duplicate message)', async t => {
