@@ -18,13 +18,13 @@ test('should not call getSheetByName() outside doPost() because it is instable i
 })
 
 test('should call getActiveSheet() after calling doPost()', async t => {
-  const error = await t.throws(doPost)
+  await t.throws(doPost)
 
   t.true(getActiveSheetSpy.called)
 })
 
 test('should call getSheetByName() after calling doPost()',async  t => {
-  const error = await t.throws(doPost)
+  await t.throws(doPost)
 
   t.true(getSheetByNameSpy.called)
   t.is(getSheetByNameSpy.args[0][0], 'RawData')
