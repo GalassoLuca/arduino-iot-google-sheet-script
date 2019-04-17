@@ -1,9 +1,22 @@
-require('./SpreadsheetApp')
+const { FlatSpreasheetApp } = require('./SpreadsheetApp')
 
 const test = require('ava')
 const fixtures = require('./fixtures')
+const sinon = require('sinon')
+
+const getActiveSheetSpy = sinon.spy(FlatSpreasheetApp, 'getActiveSheet')
+const getSheetByNameSpy = sinon.spy(FlatSpreasheetApp, 'getSheetByName')
 
 const doPost = require('../Code.gs')
+
+test('should have called getActiveSheet()', t => {
+  t.true(getActiveSheetSpy.called)
+})
+
+test('should have called getSheetByName()', t => {
+  t.true(getSheetByNameSpy.called)
+  t.is(getSheetByNameSpy.args[0][0], 'RawData')
+})
 
 test('should throw if the input is indefined', async t => {
   const error = await t.throws(doPost)

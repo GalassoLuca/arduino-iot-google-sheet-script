@@ -1,18 +1,37 @@
-global.SpreadsheetApp = {
-  getActiveSheet: () => ({
-    getSheetByName: (sheetName) => ({
-      getRange: (start, end) => ({
-        getValue: () => { },
-        setValue: (value) => ({
-          setNumberFormat: (format) => {}
-        }),
-        setFontColor: (color) => { },
-        setFontSize: (size) => { },
-        setFontWeight: (weight) => { }
-      }),
-      getLastColumn: () => { },
-      getLastRow: () => { },
-      insertRowAfter: () => { }
-    })
-  })
-}
+const FlatSpreasheetApp = {}
+
+FlatSpreasheetApp.getActiveSheet = () => ({
+  getSheetByName: FlatSpreasheetApp.getSheetByName
+})
+
+FlatSpreasheetApp.getSheetByName = (sheetName) => ({
+  getRange: FlatSpreasheetApp.getRange,
+  getLastColumn: FlatSpreasheetApp.getLastColumn,
+  getLastRow: FlatSpreasheetApp.getLastRow,
+  insertRowAfter: FlatSpreasheetApp.insertRowAfter
+})
+
+FlatSpreasheetApp.getRange = (start, end) => ({
+  getValue: FlatSpreasheetApp.getValue,
+  setValue: FlatSpreasheetApp.setValue,
+  setFontColor: FlatSpreasheetApp.setFontColor,
+  setFontSize: FlatSpreasheetApp.setFontSize,
+  setFontWeight: FlatSpreasheetApp.setFontWeight
+})
+
+FlatSpreasheetApp.getValue = () => { }
+
+FlatSpreasheetApp.setValue = (value) => ({
+  setNumberFormat: FlatSpreasheetApp.setNumberFormat
+})
+
+FlatSpreasheetApp.setNumberFormat = (format) => { }
+FlatSpreasheetApp.setFontColor = (color) => { }
+FlatSpreasheetApp.setFontSize = (size) => { }
+FlatSpreasheetApp.setFontWeight = (weight) => { }
+FlatSpreasheetApp.getLastColumn = () => { }
+FlatSpreasheetApp.getLastRow = () => { }
+FlatSpreasheetApp.insertRowAfter = () => { }
+
+global.SpreadsheetApp = FlatSpreasheetApp
+module.exports = { FlatSpreasheetApp }

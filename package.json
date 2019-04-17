@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/GalassoLuca/arduino-iot-google-sheet-script#readme",
   "dependencies": {
-    "ava": "^1.4.1"
+    "ava": "^1.4.1",
+    "sinon": "^7.3.2"
   }
 }
