@@ -5,8 +5,17 @@ global.SpreadsheetApp = {
   getActiveSheet: () => ({
     getSheetByName: (sheetName) => ({
       getRange: (start, end) => ({
-        getValue: () => {}
-      })
+        getValue: () => { },
+        setValue: (value) => ({
+          setNumberFormat: (format) => {}
+        }),
+        setFontColor: (color) => { },
+        setFontSize: (size) => { },
+        setFontWeight: (weight) => { }
+      }),
+      getLastColumn: () => { },
+      getLastRow: () => { },
+      insertRowAfter: () => { }
     })
   })
 }
@@ -43,7 +52,7 @@ test('should return undefined if the message is older than 5 seconds', t => {
   t.is(result, undefined)
 })
 
-test.skip('TODO', t => {
+test('should not throw if the input is in a well formed format', t => {
   const result = doPost(fixtures.objectWithSingleValue)
 
   t.is(result, undefined)
