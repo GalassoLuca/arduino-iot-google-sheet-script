@@ -1,10 +1,6 @@
 const FlatSpreasheetApp = {}
 
-FlatSpreasheetApp.getActiveSheet = () => ({
-  getSheetByName: FlatSpreasheetApp.getSheetByName
-})
-
-FlatSpreasheetApp.getSheetByName = (sheetName) => ({
+FlatSpreasheetApp.getActiveSheet = (sheetName) => ({
   getRange: FlatSpreasheetApp.getRange,
   getLastColumn: FlatSpreasheetApp.getLastColumn,
   getLastRow: FlatSpreasheetApp.getLastRow,

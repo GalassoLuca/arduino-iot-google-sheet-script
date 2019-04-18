@@ -5,7 +5,6 @@ const fixtures = require('./fixtures')
 const sinon = require('sinon')
 
 const getActiveSheetSpy = sinon.spy(FlatSpreasheetApp, 'getActiveSheet')
-const getSheetByNameSpy = sinon.spy(FlatSpreasheetApp, 'getSheetByName')
 
 const doPost = require('../Code.gs')
 
@@ -13,21 +12,10 @@ test('should not call getActiveSheet() outside doPost() because it is instable i
   t.false(getActiveSheetSpy.called)
 })
 
-test('should not call getSheetByName() outside doPost() because it is instable if it is called in a parallel way', t => {
-  t.false(getSheetByNameSpy.called)
-})
-
 test('should call getActiveSheet() after calling doPost()', async t => {
   await t.throws(doPost)
 
   t.true(getActiveSheetSpy.called)
-})
-
-test('should call getSheetByName() after calling doPost()',async  t => {
-  await t.throws(doPost)
-
-  t.true(getSheetByNameSpy.called)
-  t.is(getSheetByNameSpy.args[0][0], 'RawData')
 })
 
 test('should throw if the input is indefined', async t => {

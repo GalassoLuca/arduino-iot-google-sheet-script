@@ -23,12 +23,11 @@
 try { module.exports = doPost } catch (err) { }
 
 function doPost(e) {
-  const activeSheet = SpreadsheetApp.getActiveSheet()
-  const sheet = activeSheet.getSheetByName('RawData')
-
   const maxRowsToDisplay = 1440
   const headerRow = 1
   const timestampCol = 1
+
+  const sheet = SpreadsheetApp.getActiveSheet()
 
   const cloudData = JSON.parse(e.postData.contents)
   const values = cloudData.values
@@ -96,7 +95,7 @@ function doPost(e) {
     // this is to avoid empty cells if not all properties are updated at the same time
     sheet.getRange(headerRow + 1, col).setValue(sheet.getRange(headerRow + 2, col).getValue());
     for (var i = 0; i < values.length; i++) {
-      const currentName = sheet.getRange(HEADER_ROW, col).getValue();
+      const currentName = sheet.getRange(headerRow, col).getValue();
       if (currentName == values[i].name) {
         // turn boolean values into 0/1, otherwise google sheets interprets them as labels in the graph
         if (incValues[i] == true) {
@@ -104,7 +103,7 @@ function doPost(e) {
         } else if (incValues[i] == false) {
           incValues[i] = 0;
         }
-        sheet.getRange(HEADER_ROW + 1, col).setValue(incValues[i]);
+        sheet.getRange(headerRow + 1, col).setValue(incValues[i]);
       }
     }
   }
