@@ -26,7 +26,6 @@ try { module.exports = doPost } catch (err) { }
 function doPost (e) {
   const maxRowsToDisplay = 1440
   const headerRow = 1
-  const timestampCol = 1
 
   const sheet = SpreadsheetApp.getActiveSheet()
 
@@ -48,24 +47,27 @@ function doPost (e) {
   }
 
   // this section write property names
-  sheet.getRange(headerRow, 1).setValue('timestamp')
+  // sheet.getRange(headerRow + 1, timestampCol).setValue(messageDate).setNumberFormat("yyyy-MM-dd HH:mm:ss");
+  values.unshift({
+    name: 'timestamp',
+    value: messageDate
+  })
+
+  // TODO create updateHeader()
   for (var i = 0; i < values.length; i++) {
-    // at the very beginning this should return 1 // second cycle -> it is 2
-    var lastCol = sheet.getLastColumn()
-    if (lastCol === 1) {
-      sheet.getRange(headerRow, lastCol + 1).setValue(values[i].name)
-    } else {
-      // check if the name is already in header
-      var found = 0
-      for (var col = 2; col <= lastCol; col++) {
-        if (sheet.getRange(headerRow, col).getValue() === values[i].name) {
-          found = 1
-          break
-        }
+    var value = values[i]
+    var lastCol = sheet.getLastColumn() // at the very beginning this should return 1 // second cycle -> it is 2
+    var found
+
+    for (var col = 1; col <= lastCol; col++) {
+      if (sheet.getRange(headerRow, col).getValue() === value.name) {
+        found = true
+        break
       }
-      if (found == 0) {
-        sheet.getRange(headerRow, lastCol + 1).setValue(values[i].name)
-      }
+    }
+
+    if (!found) {
+      sheet.getRange(headerRow, lastCol + 1).setValue(value.name)
     }
   }
 
@@ -74,7 +76,7 @@ function doPost (e) {
   var lastRow = sheet.getLastRow()
 
   // delete last row to maintain constant the total number of rows
-  if (lastRow > maxRowsToDisplay + headerRow - 1) {
+  if (lastRow > maxRowsToDisplay) {
     sheet.deleteRow(lastRow)
   }
 
@@ -83,13 +85,10 @@ function doPost (e) {
 
   // reset style of the new row, otherwise it will inherit the style of the header row
   var range = sheet.getRange('A2:Z2')
-  // range.setBackground('#ffffff')
+  // range.setBackground('#ffffff');
   range.setFontColor('#000000')
   range.setFontSize(10)
   range.setFontWeight('normal')
-
-  // write the timestamp
-  sheet.getRange(headerRow + 1, timestampCol).setValue(messageDate).setNumberFormat('yyyy-MM-dd HH:mm:ss')
 
   // write values in the respective columns
   for (var col = 1; col <= lastCol; col++) {
