@@ -4,7 +4,8 @@
   "description": "Google sheet script in order to receive data from Arduino cloud",
   "main": "index.js",
   "scripts": {
-    "test": "ava"
+    "test": "ava",
+    "build": "babel --presets es2015 Code.js -o Code.gs -s true"
   },
   "repository": {
     "type": "git",
@@ -27,6 +28,8 @@
   "dependencies": {},
   "devDependencies": {
     "ava": "^1.4.1",
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
     "sinon": "^7.3.2"
   }
 }
