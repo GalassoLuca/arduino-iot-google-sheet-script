@@ -21,7 +21,9 @@
 /* global SpreadsheetApp */
 
 // module is not supported in Google Apps Script, but we need to export it in order to test it
-try { module.exports = doPost } catch (err) { }
+try {
+  module.exports = doPost
+} catch (err) { }
 
 function doPost (e) {
   const maxRowsToDisplay = 1440
@@ -54,22 +56,8 @@ function doPost (e) {
   })
 
   // TODO create updateHeader()
-  for (var i = 0; i < values.length; i++) {
-    var value = values[i]
-    var lastCol = sheet.getLastColumn() // at the very beginning this should return 1 // second cycle -> it is 2
-    var found
-
-    for (var col = 1; col <= lastCol; col++) {
-      if (sheet.getRange(headerRow, col).getValue() === value.name) {
-        found = true
-        break
-      }
-    }
-
-    if (!found) {
-      sheet.getRange(headerRow, lastCol + 1).setValue(value.name)
-    }
-  }
+  const names = values.map(value => value.name)
+  updateHeader(sheet, headerRow, names)
 
   // redefine last coloumn and last row since new names could have been added
   var lastCol = sheet.getLastColumn()
@@ -105,5 +93,20 @@ function doPost (e) {
         sheet.getRange(headerRow + 1, col).setValue(values[i].value)
       }
     }
+  }
+}
+
+function updateHeader (sheet, headerRow, names) {
+  for (var i = 0; i < names.length; i++) {
+    const name = names[i]
+    const lastCol = sheet.getLastColumn() // at the very beginning this should return 1 // second cycle -> it is 2
+
+    for (var col = 1; col <= lastCol; col++) {
+      if (sheet.getRange(headerRow, col).getValue() === name) {
+        return
+      }
+    }
+
+    sheet.getRange(headerRow, lastCol + 1).setValue(name)
   }
 }
