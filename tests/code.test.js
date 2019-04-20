@@ -1,12 +1,12 @@
-const { FlatSpreasheetApp } = require('./SpreadsheetApp')
-
 const test = require('ava')
-const fixtures = require('./fixtures')
 const sinon = require('sinon')
 
-const getActiveSheetSpy = sinon.spy(FlatSpreasheetApp, 'getActiveSheet')
+const { FlatSpreasheetApp } = require('./SpreadsheetApp')
+const fixtures = require('./fixtures')
 
 const doPost = require('../Code.gs')
+
+const getActiveSheetSpy = sinon.spy(FlatSpreasheetApp, 'getActiveSheet')
 
 test('should not call getActiveSheet() outside doPost() because it is instable if it is called in a parallel way', t => {
   t.false(getActiveSheetSpy.called)
