@@ -20,7 +20,10 @@
 
 // module is not supported in Google Apps Script, but we need to export it in order to test it
 try {
-  module.exports = doPost
+  module.exports = {
+    doPost,
+    updateHeader
+  }
 } catch (err) { }
 
 function doPost (e) {

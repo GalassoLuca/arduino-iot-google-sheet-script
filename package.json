@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "ava",
-    "build": "babel --presets es2015 Code.js -o Code.gs -s true"
+    "build": "babel --presets es2015 Code.js -o Code.gs --no-comments"
   },
   "repository": {
     "type": "git",

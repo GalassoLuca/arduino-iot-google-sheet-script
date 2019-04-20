@@ -24,3 +24,6 @@ global.SpreadsheetApp = {
   })
 }
 ```
+
+# Build the file
+`npm run build`
