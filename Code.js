@@ -21,32 +21,23 @@
 // module is not supported in Google Apps Script, but we need to export it in order to test it
 try {
   module.exports = {
+    isOldMessage,
+    updateHeader,
     doPost,
-    updateHeader
   }
 } catch (err) { }
 
 function doPost (e) {
-  const maxRowsToDisplay = 1440
-  const headerRow = 1
-
-  const sheet = SpreadsheetApp.getActiveSheet()
-
   const cloudData = JSON.parse(e.postData.contents)
-  const values = cloudData.values
-
+  const { values } = cloudData
   const messageDate = new Date(values[0].updated_at)
 
   if (isNaN(messageDate.getFullYear())) {
-    throw new Error('Compromised data (is it a duplicate?)')
+    throw new Error('Compromised data. (Is it a duplicate?)')
   }
 
-  // discard all messages that arrive 'late'
-  if (sheet.getRange(headerRow + 1, 1).getValue() !== '') { // for the first time app is run
-    const maxSupportedDeltaMS = 5 * 1000
-    if (Date.now() - messageDate.getTime() > maxSupportedDeltaMS) {
-      return
-    }
+  if (isOldMessage(messageDate)) {
+    return
   }
 
   // this section write property names
@@ -56,16 +47,14 @@ function doPost (e) {
     value: messageDate
   })
 
-  // TODO create updateHeader()
+  const headerRow = 1
   const names = values.map(value => value.name)
+  const sheet = SpreadsheetApp.getActiveSheet()
+
   updateHeader(sheet, headerRow, names)
 
-  // redefine last coloumn and last row since new names could have been added
-  var lastCol = sheet.getLastColumn()
-  var lastRow = sheet.getLastRow()
-
-  // delete last row to maintain constant the total number of rows
-  if (lastRow > maxRowsToDisplay) {
+  const maxRowsToDisplay = 1440
+  if (sheet.getLastRow() > maxRowsToDisplay) {
     sheet.deleteRow(lastRow)
   }
 
@@ -73,13 +62,14 @@ function doPost (e) {
   sheet.insertRowAfter(headerRow)
 
   // reset style of the new row, otherwise it will inherit the style of the header row
-  var range = sheet.getRange('A2:Z2')
+  const range = sheet.getRange('A2:Z2')
   // range.setBackground('#ffffff');
   range.setFontColor('#000000')
   range.setFontSize(10)
   range.setFontWeight('normal')
 
   // write values in the respective columns
+  const lastCol = sheet.getLastColumn()
   for (var col = 1; col <= lastCol; col++) {
     // first copy previous values
     // this is to avoid empty cells if not all properties are updated at the same time
@@ -98,8 +88,7 @@ function doPost (e) {
 }
 
 function updateHeader (sheet, headerRow, names) {
-  for (var i = 0; i < names.length; i++) {
-    const name = names[i]
+  names.forEach(name => {
     const lastCol = sheet.getLastColumn() // at the very beginning this should return 1 // second cycle -> it is 2
 
     for (var col = 1; col <= lastCol; col++) {
@@ -109,5 +98,12 @@ function updateHeader (sheet, headerRow, names) {
     }
 
     sheet.getRange(headerRow, lastCol + 1).setValue(name)
+  })
+}
+
+function isOldMessage (messageDate) {
+  const maxSupportedDeltaMS = 5 * 1000
+  if (Date.now() - messageDate.getTime() > maxSupportedDeltaMS) {
+    return true
   }
 }

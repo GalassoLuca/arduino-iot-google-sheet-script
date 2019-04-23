@@ -1,12 +1,10 @@
+require('./SpreadsheetApp')
 const test = require('ava')
 const sinon = require('sinon')
-
-const { FlatSpreasheetApp } = require('./SpreadsheetApp')
 const fixtures = require('./fixtures')
+const { doPost } = require('../Code.js')
 
-const doPost = require('../Code.gs')
-
-const getActiveSheetSpy = sinon.spy(FlatSpreasheetApp, 'getActiveSheet')
+const getActiveSheetSpy = sinon.spy(SpreadsheetApp, 'getActiveSheet')
 
 test('should not call getActiveSheet() outside doPost() because it is instable if it is called in a parallel way', t => {
   t.false(getActiveSheetSpy.called)
@@ -39,7 +37,7 @@ test('should throw if the input does not have values', async t => {
 test('should throw if the date of a value is compromised (due to duplicate message)', async t => {
   const error = await t.throws(() => doPost(fixtures.objectWithCorruptedValue))
 
-  t.is(error.message, 'Compromised data (is it a duplicate?)')
+  t.is(error.message, 'Compromised data. (Is it a duplicate?)')
 })
 
 test('should return undefined if the message is older than 5 seconds', t => {

@@ -4,7 +4,7 @@
   "description": "Google sheet script in order to receive data from Arduino cloud",
   "main": "index.js",
   "scripts": {
-    "test": "ava",
+    "test": "ava --verbose",
     "build": "babel --presets es2015 Code.js -o Code.gs --no-comments"
   },
   "repository": {

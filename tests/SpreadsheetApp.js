@@ -30,4 +30,3 @@ FlatSpreasheetApp.getLastRow = () => { }
 FlatSpreasheetApp.insertRowAfter = () => { }
 
 global.SpreadsheetApp = FlatSpreasheetApp
-module.exports = { FlatSpreasheetApp }
