@@ -89,7 +89,7 @@ function doPost (e) {
 
 function updateHeader (sheet, headerRow, names) {
   names.forEach(name => {
-    const lastCol = sheet.getLastColumn() // at the very beginning this should return 1 // second cycle -> it is 2
+    const lastCol = sheet.getLastColumn()
 
     for (var col = 1; col <= lastCol; col++) {
       if (sheet.getRange(headerRow, col).getValue() === name) {
