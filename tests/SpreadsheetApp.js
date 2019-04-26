@@ -9,6 +9,7 @@ FlatSpreasheetApp.getActiveSheet = (sheetName) => ({
 
 FlatSpreasheetApp.getRange = (start, end) => ({
   getValue: FlatSpreasheetApp.getValue,
+  getValues: FlatSpreasheetApp.getValues,
   setValue: FlatSpreasheetApp.setValue,
   setFontColor: FlatSpreasheetApp.setFontColor,
   setFontSize: FlatSpreasheetApp.setFontSize,
@@ -16,6 +17,7 @@ FlatSpreasheetApp.getRange = (start, end) => ({
 })
 
 FlatSpreasheetApp.getValue = () => { }
+FlatSpreasheetApp.getValues = () => [[]]
 
 FlatSpreasheetApp.setValue = (value) => ({
   setNumberFormat: FlatSpreasheetApp.setNumberFormat

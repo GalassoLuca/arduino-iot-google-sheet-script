@@ -37,7 +37,7 @@ function doPost (e) {
   }
 
   if (isOldMessage(messageDate)) {
-    return
+    // return
   }
 
   // this section write property names
@@ -47,9 +47,9 @@ function doPost (e) {
     value: messageDate
   })
 
+  const sheet = SpreadsheetApp.getActiveSheet()
   const headerRow = 1
   const names = values.map(value => value.name)
-  const sheet = SpreadsheetApp.getActiveSheet()
 
   updateHeader(sheet, headerRow, names)
 
@@ -58,15 +58,9 @@ function doPost (e) {
     sheet.deleteRow(lastRow)
   }
 
-  // insert new row after deleting the last one
   sheet.insertRowAfter(headerRow)
 
-  // reset style of the new row, otherwise it will inherit the style of the header row
-  const range = sheet.getRange('A2:Z2')
-  // range.setBackground('#ffffff');
-  range.setFontColor('#000000')
-  range.setFontSize(10)
-  range.setFontWeight('normal')
+  updateRowStyle(sheet, 2)
 
   // write values in the respective columns
   const lastCol = sheet.getLastColumn()
@@ -89,16 +83,34 @@ function doPost (e) {
 
 function updateHeader (sheet, headerRow, names) {
   names.forEach(name => {
-    const lastCol = sheet.getLastColumn()
+    const headerValues = getRowValues(sheet, headerRow)
 
-    for (var col = 1; col <= lastCol; col++) {
-      if (sheet.getRange(headerRow, col).getValue() === name) {
-        return
-      }
+    // if (headerValues.includes(name)) {
+    if (headerValues.filter(String).indexOf(name) > -1) {
+      return
     }
 
+    // bug when there is an empty cell
+    const lastCol = headerValues.filter(String).length
     sheet.getRange(headerRow, lastCol + 1).setValue(name)
   })
+}
+
+function updateRowStyle(sheet, row) {
+  const lastCol = sheet.getLastColumn()
+  const range = sheet.getRange(row, 1, 1, lastCol)
+
+  // range.setBackground('#ffffff');
+  range.setFontColor('#000000')
+  range.setFontSize(10)
+  range.setFontWeight('normal')
+}
+
+function getRowValues(sheet, row) {
+  const lastCol = sheet.getLastColumn()
+  const rowValues = sheet.getRange(row, 1, 1, lastCol).getValues()[0]
+
+  return rowValues
 }
 
 function isOldMessage (messageDate) {
