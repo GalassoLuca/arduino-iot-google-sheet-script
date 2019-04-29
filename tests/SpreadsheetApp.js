@@ -13,7 +13,8 @@ FlatSpreasheetApp.getRange = (start, end) => ({
   setValue: FlatSpreasheetApp.setValue,
   setFontColor: FlatSpreasheetApp.setFontColor,
   setFontSize: FlatSpreasheetApp.setFontSize,
-  setFontWeight: FlatSpreasheetApp.setFontWeight
+  setFontWeight: FlatSpreasheetApp.setFontWeight,
+  setNumberFormat: FlatSpreasheetApp.setFontFormat
 })
 
 FlatSpreasheetApp.getValue = () => { }
@@ -27,6 +28,7 @@ FlatSpreasheetApp.setNumberFormat = (format) => { }
 FlatSpreasheetApp.setFontColor = (color) => { }
 FlatSpreasheetApp.setFontSize = (size) => { }
 FlatSpreasheetApp.setFontWeight = (weight) => { }
+FlatSpreasheetApp.setFontFormat = (format) => { }
 FlatSpreasheetApp.getLastColumn = () => { }
 FlatSpreasheetApp.getLastRow = () => { }
 FlatSpreasheetApp.insertRowAfter = () => { }

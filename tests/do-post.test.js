@@ -1,5 +1,5 @@
 require('./SpreadsheetApp')
-const test = require('ava')
+const { serial: test } = require('ava')
 const sinon = require('sinon')
 const fixtures = require('./fixtures')
 const { doPost } = require('../Code.js')
@@ -10,8 +10,8 @@ test('should not call getActiveSheet() outside doPost() because it is instable i
   t.false(getActiveSheetSpy.called)
 })
 
-test('should call getActiveSheet() after calling doPost()', async t => {
-  await t.throws(doPost)
+test('should call getActiveSheet() after calling doPost() if the message is valid', t => {
+  doPost(fixtures.objectWithEnvVarsOnly)
 
   t.true(getActiveSheetSpy.called)
 })

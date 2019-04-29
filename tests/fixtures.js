@@ -19,16 +19,51 @@ const contentsWithOldValue = {
   }]
 }
 
+const MKR_env_shield_variables = {
+  id: '7a7c007a-a09f-4a40-868e-f59d3ea6bb87',
+  name: 'MKR_env_shield_variables',
+  value: '{ Temperature: 24.59, Humidity: 51.77, Pressure: 100.26, Lux: 17.74, UVA: 0.00, UVB: 0.00, UVIndex: 0.00 }',
+  persist: false,
+  updated_at: (new Date()).toISOString(),
+  created_by: 'd2016b52-72ad-4dd0-9a86-877a7e8ae2ba'
+}
+
+const temperatureValue = {
+  id: '6a6c006a-a09f-4a40-868e-f59d3ea6bb86',
+  name: 'Temperature',
+  value: 24.59,
+  persist: false,
+  updated_at: (new Date()).toISOString(),
+  created_by: 'd2016b52-72ad-4dd0-9a86-877a7e8ae2ba'
+}
+
+const humidityValue = {
+  id: '5a5c005a-a09f-4a40-858e-f59d3ea5bb85',
+  name: 'Humidity',
+  value: 51.77,
+  persist: false,
+  updated_at: (new Date()).toISOString(),
+  created_by: 'd2016b52-72ad-4dd0-9a86-877a7e8ae2ba'
+}
+
+const contentsWithEnvVarsOnly = {
+  ...contentsWithoutValues,
+  values: [MKR_env_shield_variables]
+}
+
 const contentsWithSingleValue = {
   ...contentsWithoutValues,
-  values: [{
-    id: '7a7c007a-a09f-4a40-868e-f59d3ea6bb87',
-    name: 'MKR_env_shield_variable',
-    value: '{ Temperature: 24.59, Humidity: 51.77, Pressure: 100.26, Lux: 17.74, UVA: 0.00, UVB: 0.00, UVIndex: 0.00 }',
-    persist: false,
-    updated_at: (new Date()).toISOString(),
-    created_by: 'd2016b52-72ad-4dd0-9a86-877a7e8ae2ba'
-  }]
+  values: [temperatureValue]
+}
+
+const contentsWithVarsExcludingEnvVars = {
+  ...contentsWithoutValues,
+  values: [temperatureValue, humidityValue]
+}
+
+const contentsWithVarsIncludingEnvVars = {
+  ...contentsWithoutValues,
+  values: [temperatureValue, humidityValue, MKR_env_shield_variables]
 }
 
 function contentsToWebHookObject (contents) {
@@ -43,5 +78,8 @@ module.exports = {
   objectWithoutValues: contentsToWebHookObject(contentsWithoutValues),
   objectWithCorruptedValue: contentsToWebHookObject(contentsWithCorruptedValue),
   objectWithOldValue: contentsToWebHookObject(contentsWithOldValue),
-  objectWithSingleValue: contentsToWebHookObject(contentsWithSingleValue)
+  objectWithSingleValue: contentsToWebHookObject(contentsWithSingleValue),
+  objectWithEnvVarsOnly: contentsToWebHookObject(contentsWithEnvVarsOnly),
+  objectWithVarsIncludingEnvVars: contentsToWebHookObject(contentsWithVarsIncludingEnvVars),
+  objectWithVarsExcludingEnvVars: contentsToWebHookObject(contentsWithVarsExcludingEnvVars)
 }

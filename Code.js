@@ -24,12 +24,13 @@ try {
     isOldMessage,
     updateHeader,
     doPost,
+    parseValues
   }
 } catch (err) { }
 
 function doPost(e) {
   const cloudData = JSON.parse(e.postData.contents)
-  const { values } = cloudData
+  const values = parseValues(cloudData.values)
   const messageDate = new Date(values[0].updated_at)
 
   if (isNaN(messageDate.getFullYear())) {
@@ -37,7 +38,7 @@ function doPost(e) {
   }
 
   if (isOldMessage(messageDate)) {
-    // return
+    return
   }
 
   // this section write property names
@@ -61,6 +62,10 @@ function doPost(e) {
   updateRowStyle(sheet, headerRow + 1)
 
   updateValues(sheet, headerRow, header, values)
+}
+
+function parseValues(values) {
+  return values
 }
 
 function updateValues(sheet, headerRow, headerValues, values) {
@@ -107,7 +112,7 @@ function updateRowStyle(sheet, row) {
 function getRowValues(sheet, row) {
   const firstCol = 1
   const lastCol = sheet.getLastColumn()
-  const numberOfRows
+  const numberOfRows = 1
   const rowValues = sheet.getRange(row, firstCol, numberOfRows, lastCol).getValues()[0]
 
   return rowValues
