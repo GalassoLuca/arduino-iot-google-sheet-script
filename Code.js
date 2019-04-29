@@ -27,7 +27,7 @@ try {
   }
 } catch (err) { }
 
-function doPost (e) {
+function doPost(e) {
   const cloudData = JSON.parse(e.postData.contents)
   const { values } = cloudData
   const messageDate = new Date(values[0].updated_at)
@@ -41,7 +41,6 @@ function doPost (e) {
   }
 
   // this section write property names
-  // sheet.getRange(headerRow + 1, timestampCol).setValue(messageDate).setNumberFormat("yyyy-MM-dd HH:mm:ss");
   values.unshift({
     name: 'timestamp',
     value: messageDate
@@ -51,7 +50,7 @@ function doPost (e) {
   const headerRow = 1
   const names = values.map(value => value.name)
 
-  updateHeader(sheet, headerRow, names)
+  const header = updateHeader(sheet, headerRow, names)
 
   const maxRowsToDisplay = 1440
   if (sheet.getLastRow() > maxRowsToDisplay) {
@@ -59,41 +58,37 @@ function doPost (e) {
   }
 
   sheet.insertRowAfter(headerRow)
+  updateRowStyle(sheet, headerRow + 1)
 
-  updateRowStyle(sheet, 2)
-
-  // write values in the respective columns
-  const lastCol = sheet.getLastColumn()
-  for (var col = 1; col <= lastCol; col++) {
-    // first copy previous values
-    // this is to avoid empty cells if not all properties are updated at the same time
-    sheet.getRange(headerRow + 1, col).setValue(sheet.getRange(headerRow + 2, col).getValue())
-    for (var i = 0; i < values.length; i++) {
-      const currentName = sheet.getRange(headerRow, col).getValue()
-      if (currentName == values[i].name) {
-        // turn boolean values into 0/1, otherwise google sheets interprets them as labels in the graph
-        if ([true, false].includes(values[i].value)) {
-          values[i].value = values[i].value.toString()
-        }
-        sheet.getRange(headerRow + 1, col).setValue(values[i].value)
-      }
-    }
-  }
+  updateValues(sheet, headerRow, header, values)
 }
 
-function updateHeader (sheet, headerRow, names) {
+function updateValues(sheet, headerRow, headerValues, values) {
+  values.forEach(({value, name}) => {
+    const colIndex = 1 + headerValues.indexOf(name)
+
+    // if ([true, false].indexOf(value) > -1) {
+    if ([true, false].includes(value)) {
+      value = value.toString()
+    }
+
+    sheet.getRange(headerRow + 1, colIndex).setValue(value)
+  })
+}
+
+function updateHeader(sheet, headerRow, names) {
   names.forEach(name => {
     const headerValues = getRowValues(sheet, headerRow)
 
-    // if (headerValues.includes(name)) {
-    if (headerValues.filter(String).indexOf(name) > -1) {
+    if (headerValues.filter(String).includes(name)) {
       return
     }
 
-    // bug when there is an empty cell
-    const lastCol = headerValues.filter(String).length
-    sheet.getRange(headerRow, lastCol + 1).setValue(name)
+    const lastHeaderCol = headerValues.filter(String).length
+    sheet.getRange(headerRow, lastHeaderCol + 1).setValue(name)
   })
+
+  return getRowValues(sheet, headerRow)
 }
 
 function updateRowStyle(sheet, row) {
@@ -104,18 +99,29 @@ function updateRowStyle(sheet, row) {
   range.setFontColor('#000000')
   range.setFontSize(10)
   range.setFontWeight('normal')
+
+  const timestampCol = 1
+  sheet.getRange(row, timestampCol).setNumberFormat("yyyy-MM-dd HH:mm:ss");
 }
 
 function getRowValues(sheet, row) {
+  const firstCol = 1
   const lastCol = sheet.getLastColumn()
-  const rowValues = sheet.getRange(row, 1, 1, lastCol).getValues()[0]
+  const numberOfRows
+  const rowValues = sheet.getRange(row, firstCol, numberOfRows, lastCol).getValues()[0]
 
   return rowValues
 }
 
-function isOldMessage (messageDate) {
+function isOldMessage(messageDate) {
   const maxSupportedDeltaMS = 5 * 1000
   if (Date.now() - messageDate.getTime() > maxSupportedDeltaMS) {
     return true
+  }
+}
+
+if (!Array.prototype.includes) {
+  Array.prototype.includes = function (value) {
+    return this.some(v => value === v)
   }
 }
