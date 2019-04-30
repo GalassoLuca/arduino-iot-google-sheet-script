@@ -11,7 +11,7 @@ try {
 
 function doPost(e) {
   var cloudData = JSON.parse(e.postData.contents);
-  var values = parseValues(cloudData.values);
+  var values = cloudData.values;
   var messageDate = new Date(values[0].updated_at);
 
   if (isNaN(messageDate.getFullYear())) {
@@ -22,6 +22,7 @@ function doPost(e) {
     throw new Error('The message is too old!');
   }
 
+  values = parseValues(values);
   values.unshift({
     name: 'timestamp',
     value: messageDate
@@ -48,18 +49,19 @@ function doPost(e) {
 
 function parseValues(values) {
   return values.reduce(function (acc, cv) {
-    if (cv.name !== 'MKR_env_shield_variables') {
+    if (!cv.name.startsWith("JSON")) {
       acc.push(cv);
       return acc;
     }
 
-    var mkrObj = JSON.parse(cv.value);
+    var jsonValues = JSON.parse(cv.value);
 
-    Object.keys(mkrObj).forEach(function (name) {
+    Object.keys(jsonValues).forEach(function (name) {
       var newValue = JSON.parse(JSON.stringify(cv));
 
       newValue.name = name;
-      newValue.value = mkrObj[name];
+      newValue.value = jsonValues[name];
+
       acc.push(newValue);
     });
 
@@ -131,4 +133,13 @@ if (!Array.prototype.includes) {
       return value === v;
     });
   };
+}
+
+if (!String.prototype.startsWith) {
+  Object.defineProperty(String.prototype, 'startsWith', {
+    value: function value(search, pos) {
+      pos = !pos || pos < 0 ? 0 : +pos;
+      return this.substring(pos, pos + search.length) === search;
+    }
+  });
 }

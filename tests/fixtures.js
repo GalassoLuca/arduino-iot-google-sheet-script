@@ -23,7 +23,7 @@ const contentsWithOldValue = {
 
 const MKR_env_shield_variables = {
   id: '7a7c007a-a09f-4a40-868e-f59d3ea6bb87',
-  name: 'MKR_env_shield_variables',
+  name: 'JSON_env_variables',
   value: '{ "Temperature": 24.59, "Pressure": 100.26, "UVB": 0.00 }',
   persist: false,
   updated_at: currentISODateString,

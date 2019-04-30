@@ -31,7 +31,7 @@ test('should throw if the input does not have the content', async t => {
 test('should throw if the input does not have values', async t => {
   const error = await t.throws(() => doPost(fixtures.objectWithoutValues))
 
-  t.is(error.message, 'Cannot read property \'reduce\' of undefined')
+  t.is(error.message, 'Cannot read property \'0\' of undefined')
 })
 
 test('should throw if the date of a value is compromised (due to duplicate message)', async t => {

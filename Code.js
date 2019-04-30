@@ -30,7 +30,7 @@ try {
 
 function doPost(e) {
   const cloudData = JSON.parse(e.postData.contents)
-  const values = parseValues(cloudData.values)
+  let values = cloudData.values
   const messageDate = new Date(values[0].updated_at)
 
   if (isNaN(messageDate.getFullYear())) {
@@ -38,10 +38,10 @@ function doPost(e) {
   }
 
   if (isOldMessage(messageDate)) {
-    throw new Error('The message is too old!');
+    throw new Error('The message is too old!')
   }
 
-  // this section write property names
+  values = parseValues(values)
   values.unshift({
     name: 'timestamp',
     value: messageDate
@@ -66,18 +66,19 @@ function doPost(e) {
 
 function parseValues(values) {
   return values.reduce((acc, cv) => {
-    if (cv.name !== 'MKR_env_shield_variables') {
+    if (!cv.name.startsWith("JSON")) {
       acc.push(cv)
       return acc
     }
 
-    const mkrObj = JSON.parse(cv.value)
+    const jsonValues = JSON.parse(cv.value)
 
-    Object.keys(mkrObj).forEach(name => {
+    Object.keys(jsonValues).forEach(name => {
       const newValue = JSON.parse(JSON.stringify(cv))
 
       newValue.name = name
-      newValue.value = mkrObj[name]
+      newValue.value = jsonValues[name]
+
       acc.push(newValue)
     })
 
@@ -146,4 +147,13 @@ if (!Array.prototype.includes) {
   Array.prototype.includes = function (value) {
     return this.some(v => value === v)
   }
+}
+
+if (!String.prototype.startsWith) {
+  Object.defineProperty(String.prototype, 'startsWith', {
+    value: function (search, pos) {
+      pos = !pos || pos < 0 ? 0 : +pos
+      return this.substring(pos, pos + search.length) === search
+    }
+  })
 }
