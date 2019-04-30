@@ -25,5 +25,11 @@ global.SpreadsheetApp = {
 }
 ```
 
+# Init
+`npm install`
+
+# Test
+`npm test`
+
 # Build the file
 `npm run build`
