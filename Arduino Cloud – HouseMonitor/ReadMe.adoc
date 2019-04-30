@@ -1,0 +1,53 @@
+:Author: GalassoLuca
+:Email:
+:Date: 13/04/2019
+:Revision: version#
+:License: Public Domain
+
+= Project: House Monitor
+
+Use Arduino MKR Env Shield to monitor environmental data and plot them into a Google Spreadsheet
+
+== Step 1: Installation
+Steps to install this project
+
+1. Open this file
+2. Edit as you like
+3. Release to the World!
+
+== Step 2: Load the code
+
+Upload the code contained in this sketch on to your board
+
+=== Folder structure
+
+....
+ HouseMonitor                => Arduino sketch folder
+  ├── HouseMonitor.ino       => main Arduino file
+  ├── thingProperties.h      => Arduino dashboard properties
+  └── ReadMe.adoc            => this file
+....
+
+=== License
+This project is released under a MIT License.
+
+=== Contributing
+To contribute to this project please contact:
+galasso.luca@outlook.com
+
+https://github.com/GalassoLuca/arduino-iot-google-sheet-script
+
+=== BOM
+Materials you need for this project.
+
+|===
+| ID | Part name               | Quantity
+| A1 | Arduino MKR WiFi 1010   | 1        
+| EN | Arduino MKR ENV Shield  | 1        
+|===
+
+
+=== Help
+This document is written in the _AsciiDoc_ format, a markup language to describe documents. 
+If you need help you can search the http://www.methods.co.nz/asciidoc[AsciiDoc homepage]
+or consult the http://powerman.name/doc/asciidoc[AsciiDoc cheatsheet]
