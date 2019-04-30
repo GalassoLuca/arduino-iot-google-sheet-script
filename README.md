@@ -52,3 +52,5 @@ global.SpreadsheetApp = {
    4. Click the button `Publush`/`Update`
 5. Copy your `Current web app URL` that is your WebHook
 6. Paste webhook link into your Arduino Dashboard (below variables in the edit section)
+
+[This is my Spreadsheet](https://docs.google.com/spreadsheets/d/1sEhbH3fKr8hfL_KI2ciFB2GzFZUWk9ZH4xPxGBNf5Ec/edit?usp=sharing)
