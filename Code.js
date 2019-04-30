@@ -38,7 +38,7 @@ function doPost(e) {
   }
 
   if (isOldMessage(messageDate)) {
-    return
+    throw new Error('The message is too old!');
   }
 
   // this section write property names
@@ -74,7 +74,7 @@ function parseValues(values) {
     const mkrObj = JSON.parse(cv.value)
 
     Object.keys(mkrObj).forEach(name => {
-      const newValue = Object.assign({}, cv)
+      const newValue = JSON.parse(JSON.stringify(cv))
 
       newValue.name = name
       newValue.value = mkrObj[name]
@@ -128,7 +128,7 @@ function updateRowStyle(sheet, row) {
 
 function getRowValues(sheet, row) {
   const firstCol = 1
-  const lastCol = sheet.getLastColumn()
+  const lastCol = sheet.getLastColumn() || 1
   const numberOfRows = 1
   const rowValues = sheet.getRange(row, firstCol, numberOfRows, lastCol).getValues()[0]
 

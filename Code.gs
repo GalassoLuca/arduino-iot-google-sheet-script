@@ -19,7 +19,7 @@ function doPost(e) {
   }
 
   if (isOldMessage(messageDate)) {
-    return;
+    throw new Error('The message is too old!');
   }
 
   values.unshift({
@@ -56,7 +56,7 @@ function parseValues(values) {
     var mkrObj = JSON.parse(cv.value);
 
     Object.keys(mkrObj).forEach(function (name) {
-      var newValue = Object.assign({}, cv);
+      var newValue = JSON.parse(JSON.stringify(cv));
 
       newValue.name = name;
       newValue.value = mkrObj[name];
@@ -111,7 +111,7 @@ function updateRowStyle(sheet, row) {
 
 function getRowValues(sheet, row) {
   var firstCol = 1;
-  var lastCol = sheet.getLastColumn();
+  var lastCol = sheet.getLastColumn() || 1;
   var numberOfRows = 1;
   var rowValues = sheet.getRange(row, firstCol, numberOfRows, lastCol).getValues()[0];
 

@@ -40,10 +40,10 @@ test('should throw if the date of a value is compromised (due to duplicate messa
   t.is(error.message, 'Compromised data. (Is it a duplicate?)')
 })
 
-test('should return undefined if the message is older than 5 seconds', t => {
-  const result = doPost(fixtures.objectWithOldValue)
+test('should return undefined if the message is older than 5 seconds', async t => {
+  const error = await t.throws(() => doPost(fixtures.objectWithOldValue))
 
-  t.is(result, undefined)
+  t.is(error.message, 'The message is too old!')
 })
 
 test('should not throw if the input is in a well formed format', t => {
