@@ -65,11 +65,28 @@ function doPost(e) {
 }
 
 function parseValues(values) {
-  return values
+  return values.reduce((acc, cv) => {
+    if (cv.name !== 'MKR_env_shield_variables') {
+      acc.push(cv)
+      return acc
+    }
+
+    const mkrObj = JSON.parse(cv.value)
+
+    Object.keys(mkrObj).forEach(name => {
+      const newValue = Object.assign({}, cv)
+
+      newValue.name = name
+      newValue.value = mkrObj[name]
+      acc.push(newValue)
+    })
+
+    return acc
+  }, [])
 }
 
 function updateValues(sheet, headerRow, headerValues, values) {
-  values.forEach(({value, name}) => {
+  values.forEach(({ value, name }) => {
     const colIndex = 1 + headerValues.indexOf(name)
 
     // if ([true, false].indexOf(value) > -1) {
