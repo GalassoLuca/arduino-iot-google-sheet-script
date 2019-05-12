@@ -21,7 +21,7 @@ global.SpreadsheetApp = {
           setNumberFormat: (format) => {}
         }),
         setFontColor: (color) => { },
-        setFontSize: (size) => { },
+        setFontSize: (size) => { },ø
         setFontWeight: (weight) => { }
       }),
       getLastColumn: () => { },
@@ -54,3 +54,18 @@ global.SpreadsheetApp = {
 6. Paste webhook link into your Arduino Dashboard (below variables in the edit section)
 
 [This is my Spreadsheet](https://docs.google.com/spreadsheets/d/1sEhbH3fKr8hfL_KI2ciFB2GzFZUWk9ZH4xPxGBNf5Ec/edit?usp=sharing)
+
+# LowPower
+When working with LowPower, if you want to upload a new sketch on arduino shield you have to
+1. Reset Arduino shield (e.g. MKR WiFi 1010)
+  1. press reset button
+  2. disconnect arduino
+  3. connect arduino
+  4. wait until the built in led start to pulse
+  5. stop pressing reset button
+2. Upload the new sketch
+
+# TODO
+- Uniform data (e.g. change the range of UV Index from 0-10 to 0-100??)
+- Improve Google Sheet data setting management
+- Create doc for each ENV param

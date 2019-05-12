@@ -1,5 +1,5 @@
 :Author: GalassoLuca
-:Email:
+:Email: galasso.luca@outlook.com
 :Date: 13/04/2019
 :Revision: version#
 :License: Public Domain

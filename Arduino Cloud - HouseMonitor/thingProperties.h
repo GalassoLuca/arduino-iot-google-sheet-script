@@ -8,7 +8,7 @@ const char PASS[]     = SECRET_PASS;    // Network password (use for WPA, or use
 
 
 String JSON_env_variables;
-float Count;
+int Count;
 
 void initProperties(){
   ArduinoCloud.setThingId(THING_ID);
