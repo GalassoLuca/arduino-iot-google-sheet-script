@@ -48,20 +48,25 @@ function doPost(e) {
   })
 
   const sheet = SpreadsheetApp.getActiveSheet()
-  const headerRow = 1
+  const headerRow = 30
+
   const names = values.map(value => value.name)
-
   const header = updateHeader(sheet, headerRow, names)
-
-  const maxRowsToDisplay = 1440
-  if (sheet.getLastRow() > maxRowsToDisplay) {
-    sheet.deleteRow(lastRow)
-  }
 
   sheet.insertRowAfter(headerRow)
   updateRowStyle(sheet, headerRow + 1)
 
   updateValues(sheet, headerRow, header, values)
+
+  // deleteLastRow(sheet)
+}
+
+function deleteLastRow (sheet) {
+  const maxRowsToDisplay = 1440
+  const lastRow = sheet.getLastRow()
+  if (lastRow > maxRowsToDisplay) {
+    sheet.deleteRow(lastRow)
+  }
 }
 
 function parseValues(values) {
@@ -115,8 +120,10 @@ function updateHeader(sheet, headerRow, names) {
 }
 
 function updateRowStyle(sheet, row) {
+  const firstCol = 1
+  const numberOfRows = 1
   const lastCol = sheet.getLastColumn()
-  const range = sheet.getRange(row, 1, 1, lastCol)
+  const range = sheet.getRange(row, firstCol, numberOfRows, lastCol)
 
   // range.setBackground('#ffffff');
   range.setFontColor('#000000')
@@ -129,8 +136,8 @@ function updateRowStyle(sheet, row) {
 
 function getRowValues(sheet, row) {
   const firstCol = 1
-  const lastCol = sheet.getLastColumn() || 1
   const numberOfRows = 1
+  const lastCol = sheet.getLastColumn() || 1
   const rowValues = sheet.getRange(row, firstCol, numberOfRows, lastCol).getValues()[0]
 
   return rowValues

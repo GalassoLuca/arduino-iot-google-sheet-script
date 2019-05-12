@@ -29,22 +29,25 @@ function doPost(e) {
   });
 
   var sheet = SpreadsheetApp.getActiveSheet();
-  var headerRow = 1;
+  var headerRow = 30;
+
   var names = values.map(function (value) {
     return value.name;
   });
-
   var header = updateHeader(sheet, headerRow, names);
-
-  var maxRowsToDisplay = 1440;
-  if (sheet.getLastRow() > maxRowsToDisplay) {
-    sheet.deleteRow(lastRow);
-  }
 
   sheet.insertRowAfter(headerRow);
   updateRowStyle(sheet, headerRow + 1);
 
   updateValues(sheet, headerRow, header, values);
+}
+
+function deleteLastRow(sheet) {
+  var maxRowsToDisplay = 1440;
+  var lastRow = sheet.getLastRow();
+  if (lastRow > maxRowsToDisplay) {
+    sheet.deleteRow(lastRow);
+  }
 }
 
 function parseValues(values) {
@@ -100,8 +103,10 @@ function updateHeader(sheet, headerRow, names) {
 }
 
 function updateRowStyle(sheet, row) {
+  var firstCol = 1;
+  var numberOfRows = 1;
   var lastCol = sheet.getLastColumn();
-  var range = sheet.getRange(row, 1, 1, lastCol);
+  var range = sheet.getRange(row, firstCol, numberOfRows, lastCol);
 
   range.setFontColor('#000000');
   range.setFontSize(10);
@@ -113,8 +118,8 @@ function updateRowStyle(sheet, row) {
 
 function getRowValues(sheet, row) {
   var firstCol = 1;
-  var lastCol = sheet.getLastColumn() || 1;
   var numberOfRows = 1;
+  var lastCol = sheet.getLastColumn() || 1;
   var rowValues = sheet.getRange(row, firstCol, numberOfRows, lastCol).getValues()[0];
 
   return rowValues;
