@@ -65,11 +65,10 @@ void loop() {
 
   debug("");
 
-  int sleepingTime = 10 * 60 * 1000;
   if (debug) {
-    delay(sleepingTime);
+    delay(5 * 1000);
   } else {
-    LowPower.deepSleep(sleepingTime);
+    LowPower.deepSleep(10 * 60 * 1000);
   }
 }
 
