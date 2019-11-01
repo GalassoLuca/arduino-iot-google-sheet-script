@@ -1,6 +1,6 @@
-require('./SpreadsheetApp')
+require('../helpers/SpreadsheetApp')
 const test = require('ava')
-const fixtures = require('./fixtures')
+const fixtures = require('../helpers/fixtures')
 const { parseValues } = require('../Code.js')
 
 test('should not modify variables if they do not contain `MKR_env_shield_variables`', t => {

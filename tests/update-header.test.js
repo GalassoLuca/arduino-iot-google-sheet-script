@@ -1,4 +1,4 @@
-require('./SpreadsheetApp')
+require('../helpers/SpreadsheetApp')
 const { serial: test } = require('ava')
 const sinon = require('sinon')
 const { updateHeader } = require('../Code.js')

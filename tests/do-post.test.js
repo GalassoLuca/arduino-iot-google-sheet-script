@@ -1,7 +1,7 @@
-require('./SpreadsheetApp')
+require('../helpers/SpreadsheetApp')
 const { serial: test } = require('ava')
 const sinon = require('sinon')
-const fixtures = require('./fixtures')
+const fixtures = require('../helpers/fixtures')
 const { doPost } = require('../Code.js')
 
 const getActiveSheetSpy = sinon.spy(SpreadsheetApp, 'getActiveSheet')
