@@ -4,7 +4,7 @@
 #include <Arduino_MKRENV.h>
 #include <ArduinoLowPower.h>
 
-#define isDebugEnable false
+#define isDebugEnable 0
 
 void setup() {
   if (isDebugEnable) {
@@ -34,8 +34,13 @@ void setup() {
 }
 
 void loop() {
-  ArduinoCloud.update();
-  
+  while (!ArduinoCloud.connected()) {
+    ArduinoCloud.update();
+    delay(1000);
+    toggleLed(50, 50);
+    toggleLed(50, 50);
+  }
+
   Count ++;
   debug("Count       = " + String(Count));
 
@@ -65,7 +70,9 @@ void loop() {
 
   debug("");
 
-  if (debug) {
+  ArduinoCloud.update();
+
+  if (isDebugEnable) {
     delay(5 * 1000);
   } else {
     LowPower.deepSleep(10 * 60 * 1000);

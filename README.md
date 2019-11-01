@@ -56,16 +56,23 @@ global.SpreadsheetApp = {
 [This is my Spreadsheet](https://docs.google.com/spreadsheets/d/1sEhbH3fKr8hfL_KI2ciFB2GzFZUWk9ZH4xPxGBNf5Ec/edit?usp=sharing)
 
 # LowPower
-When working with LowPower, if you want to upload a new sketch on arduino shield you have to
+Remember that LowPower will disable the Serial communication.
+If you want to re-built a new sketch you can simply remove ENV Shield, turn off+on arduino.
+With this steps, Arduino will loop forever waiting for the shield, and so it will not go in deepSleep.
+
+<!-- skip the following steps
+Another way is to hard reset the shield.
 1. Reset Arduino shield (e.g. MKR WiFi 1010)
-  1. press reset button
-  2. disconnect arduino
-  3. connect arduino
-  4. wait until the built in led start to pulse
-  5. stop pressing reset button
+  1. turn off the shield
+  2. press the reset button for 1 sec
+  3. release + press the reset button for 1 sec
+  4. release + press the reset button for 1 sec
+  5. release the reset button
+  6. the led should go on/off slowly
 2. Upload the new sketch
+-->
 
 # TODO
-- Uniform data (e.g. change the range of UV Index from 0-10 to 0-100??)
-- Improve Google Sheet data setting management
-- Create doc for each ENV param
+[ ] Uniform data (e.g. change the range of UV Index from 0-10 to 0-100??)
+[ ] Improve Google Sheet data setting management
+[ ] Create doc for each ENV param
