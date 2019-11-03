@@ -75,7 +75,7 @@ void loop() {
   if (isDebugEnable) {
     delay(5 * 1000);
   } else {
-    LowPower.deepSleep(10 * 60 * 1000);
+    LowPower.deepSleep(5 * 60 * 1000);
   }
 }
 
