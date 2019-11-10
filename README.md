@@ -73,6 +73,7 @@ Another way is to hard reset the shield.
 -->
 
 # TODO
+[ ] Retrieve sheet by sheet name instead of `.getActiveSheet()`
 [ ] Uniform data (e.g. change the range of UV Index from 0-10 to 0-100??)
 [ ] Improve Google Sheet data setting management
 [ ] Create doc for each ENV param
